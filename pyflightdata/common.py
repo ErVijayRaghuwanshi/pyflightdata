@@ -36,6 +36,7 @@ class FlightMixin(object):
 
 
 class ProcessorMixin(object):
+    proxy = None
 
     def json_loads_byteified(self, json_text):
         if type(json_text) == bytes:
@@ -86,11 +87,11 @@ class ProcessorMixin(object):
                 'Origin': 'https://www.flightradar24.com',
                 'Referer': 'https://www.flightradar24.com'
             }
-            result = FlightMixin.session.get(url, headers=headers)
+            result = FlightMixin.session.get(url, headers=headers, proxies=self.proxy)
             if result.status_code != 200:
                 print("HTML code {0} - Retry in 10 seconds...".format(result.status_code))
                 time.sleep(10)
-                result = FlightMixin.session.get(url, headers=headers)
+                result = FlightMixin.session.get(url, headers=headers, proxies=self.proxy)
         except:
             return None
         return result.content if result.status_code == 200 else None

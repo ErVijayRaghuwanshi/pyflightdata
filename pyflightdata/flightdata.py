@@ -23,7 +23,7 @@
 import time
 
 from .utils import *
-from .common import FlightMixin
+from .common import FlightMixin, ProcessorMixin
 from .common_fr24 import (AIRLINE_BASE, AIRLINE_FLT_BASE, AIRPORT_BASE,
                           AIRPORT_DATA_BASE, AIRPORT_DATA_BASE_EARLIER, FLT_BASE, FR24, LOGIN_URL,
                           REG_BASE, ROOT, AIRLINE_FLT_BASE_POINTS, AIRLINE_FLEET_BASE)
@@ -52,10 +52,14 @@ class FlightData(FlightMixin):
 
     _fr24 = FR24()
 
-    def __init__(self, email=None, password=None):
+    def __init__(self, email=None, password=None, proxy=None):
         super(FlightData, self).__init__()
         if email and password:
             self.login(email, password)
+        elif proxy:
+            # update the proxy settings in common.ProcessMixin
+            ProcessorMixin.proxy = proxy
+            
 
     # Flight related information - primarily from flightradar24
     def get_flight_for_date(self,flight_number,date_str):
@@ -94,7 +98,6 @@ class FlightData(FlightMixin):
             if (date_str in arrival_dates) or (date_str in departure_dates):
                 result.append(flight)
         return result
-
 
     def get_history_by_flight_number(self, flight_number, page=1, limit=100):
         """Fetch the history of a flight by its number.
