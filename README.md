@@ -31,3 +31,9 @@ Tools using pyflightdata
 pyflighdtata was started as a small hobby library, but it has found other users who have built interesting apps of their own.
 Here is a list of the apps that we know of, if you have any other apps that you want to be listed here then please get in touch with us.
 
+## Installation
+    comming soon
+
+If you want to use the development version:
+
+    pip3 install git+https://github.com/ErVijayRaghuwanshi/pyflightdata.git
